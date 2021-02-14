@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        
+        body {
+            background-image: radial-gradient( circle farthest-corner at 10% 20%, rgba(90, 92, 106, 1) 0%, rgba(32, 45, 58, 1) 81.3%);
+        }
+        
+        body p {
+            font-size: 18px;
+            padding: 5px 0 0 5px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            transition: all .3s ease;
+            cursor: pointer;
+        }
+        
+        body p:hover {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .contenedor {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .box-hora {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+        
+        @media (min-width: 520px) {
+            .box-hora {
+                flex-direction: row-reverse;
+            }
+        }
+        
+        .hora,
+        .fecha {
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 20px 50px;
+            margin: 10px 20px;
+            transition: all .3s ease;
+        }
+        
+        .fecha:hover,
+        .hora:hover {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+        }
+        
+        .contenedor .hora p,
+        .contenedor .fecha p {
+            font-size: 18px;
+            margin-top: 5px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        @media (min-width: 500px) {
+            .contenedor .hora p,
+            .contenedor .fecha p {
+                font-size: 20px;
+            }
+        }
+        
+        #hora,
+        #fecha {
+            text-align: center;
+            font-size: 30px;
+        }
+        
+        @media (min-width: 500px) {
+            #hora,
+            #fecha {
+                font-size: 40px;
+                color: rgba(255, 255, 255, 0.9);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <p>Designed By JF</p>
+    <div class="contenedor">
+        <div class="box-hora">
+            <div class="hora">
+                <p>Hour</p>
+                <p id="hora">-</p>
+            </div>
+            <div class="fecha">
+                <p>Date</p>
+                <p id="fecha">-</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const hora = document.querySelector('#hora')
+        const fecha = document.querySelector('#fecha')
+
+        function getTheDate() {
+            today = new Date();
+            theDate = "" + (today.getMonth() + 1 + " / " + today.getDate() + " / " + (today.getYear() + 1900))
+
+            fecha.innerHTML = theDate;
+        }
+
+        //funcion para detener el timepo
+        var timerID = null
+        var timerRunning = false
+
+        function stopClock() {
+            if (timerRunning)
+                clearTimeout(timerID)
+            timerRunning = false
+        }
+
+
+        //funcion para iniciar el tiempo
+        function startClock() {
+            stopClock();
+            getTheDate();
+            showTime();
+        }
+
+        //funccion que me muestra la hora 
+        function showTime() {
+
+            var date = new Date()
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var seconds = date.getSeconds();
+
+            var time = "" + ((hours > 12) ? hours - 12 : hours)
+
+            time += ((minutes < 10) ? ":0" : ":") + minutes
+
+            time += ((seconds < 10) ? ":0" : ":") + seconds
+
+            time += (hours >= 12) ? " P.M." : " A.M."
+
+            hora.innerHTML = time;
+
+            timerID = setTimeout("showTime()", 1000)
+            timerRunning = true
+        }
+        startClock();
+    </script>
+</body>
+
+</html>
